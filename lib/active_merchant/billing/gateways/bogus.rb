@@ -18,10 +18,9 @@ module ActiveMerchant #:nodoc:
       self.display_name = 'Bogus'
       
       def authorize(money, creditcard, options = {})
-        case creditcard.number
-        when '1'
+        if card_should_be_successful?(creditcard)
           Response.new(true, SUCCESS_MESSAGE, {:authorized_amount => money.to_s}, :test => true, :authorization => AUTHORIZATION )
-        when '2'
+        elsif creditcard.number == '2'
           Response.new(false, FAILURE_MESSAGE, {:authorized_amount => money.to_s, :error => FAILURE_MESSAGE }, :test => true)
         else
           raise Error, ERROR_MESSAGE
@@ -29,10 +28,9 @@ module ActiveMerchant #:nodoc:
       end
   
       def purchase(money, creditcard, options = {})
-        case creditcard.number
-        when '1'
+        if card_should_be_successful?(creditcard)
           Response.new(true, SUCCESS_MESSAGE, {:paid_amount => money.to_s}, :test => true)
-        when '2'
+        elsif creditcard.number == '2'
           Response.new(false, FAILURE_MESSAGE, {:paid_amount => money.to_s, :error => FAILURE_MESSAGE },:test => true)
         else
           raise Error, ERROR_MESSAGE
@@ -92,6 +90,11 @@ module ActiveMerchant #:nodoc:
         else
           raise Error, UNSTORE_ERROR_MESSAGE
         end
+      end
+      
+      private
+      def card_should_be_successful?(creditcard)
+        creditcard.number == '1' || (creditcard.type != :bogus && CreditCard.matching_type?(creditcard.number, creditcard.type))
       end
     end
   end
