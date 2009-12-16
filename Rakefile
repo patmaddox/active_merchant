@@ -8,7 +8,7 @@ require File.join(File.dirname(__FILE__), 'lib', 'support', 'gateway_support')
 
 
 PKG_VERSION = "1.4.2"
-PKG_NAME = "activemerchant"
+PKG_NAME = "patmaddox-activemerchant"
 PKG_FILE_NAME = "#{PKG_NAME}-#{PKG_VERSION}"
 
 PKG_FILES = FileList[
