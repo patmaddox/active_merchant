@@ -96,7 +96,7 @@ class AuthorizeNetCimTest < Test::Unit::TestCase
 
     assert response.test?
     assert_success response
-    assert_nil response.authorization
+    assert response.authorization =~ /\w{6}/
     assert_equal "This transaction has been approved.", response.params['direct_response']['message']
     assert response.params['direct_response']['approval_code'] =~ /\w{6}/
     assert_equal "auth_only", response.params['direct_response']['transaction_type']
@@ -119,7 +119,7 @@ class AuthorizeNetCimTest < Test::Unit::TestCase
 
     assert response.test?
     assert_success response
-    assert_nil response.authorization
+    assert response.authorization =~ /\w{6}/
     assert_equal "This transaction has been approved.", response.params['direct_response']['message']
     assert_equal approval_code, response.params['direct_response']['approval_code']
     assert_equal "capture_only", response.params['direct_response']['transaction_type']
@@ -149,7 +149,7 @@ class AuthorizeNetCimTest < Test::Unit::TestCase
 
     assert response.test?
     assert_success response
-    assert_nil response.authorization
+    assert response.authorization =~ /\w{6}/
     assert_equal "This transaction has been approved.", response.params['direct_response']['message']
     assert response.params['direct_response']['approval_code'] =~ /\w{6}/
     assert_equal "auth_capture", response.params['direct_response']['transaction_type']
@@ -454,7 +454,7 @@ class AuthorizeNetCimTest < Test::Unit::TestCase
 
     assert response.test?
     assert_success response
-    assert_nil response.authorization
+    assert response.authorization =~ /\w{6}/
     assert_equal "This transaction has been approved.", response.params['direct_response']['message']
   end
 end
