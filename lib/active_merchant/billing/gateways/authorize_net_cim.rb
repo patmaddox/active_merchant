@@ -370,6 +370,7 @@ module ActiveMerchant #:nodoc:
       
       def build_create_customer_profile_request(xml, options)
         add_profile(xml, options[:profile])
+        xml.tag!('validationMode', CIM_VALIDATION_MODES[options[:validation_mode]]) if options[:validation_mode]
 
         xml.target!
       end
